@@ -88,7 +88,7 @@ st.set_page_config(page_title="Zero Hunger DataHacks", layout="wide")
 
 # Custom CSS for fonts, colors, button
 st.markdown("""
-<style>
+<style>        
 .stApp {
     background-color: #F6F4AF;  
 }
@@ -97,7 +97,7 @@ h1 {
     color: #2e7d32;
     font-weight: bold;
     text-align: center;
-    margin: 0;  /* remove default margin */
+    margin: 0;  
 }
 h3 {
     font-size: 3rem !important;
