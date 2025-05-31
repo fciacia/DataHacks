@@ -97,11 +97,10 @@ h1 {
     color: #2e7d32;
     font-weight: bold;
     text-align: center;
-    margin-bottom: 0.1em;
-    white-space: nowrap;  /* prevent wrapping */
+    margin: 0;  /* remove default margin */
 }
 h3 {
-    font-size: 2rem !important;
+    font-size: 3rem !important;
     color: #558b2f;
     text-align: center;
     margin-top: 0;
@@ -145,7 +144,7 @@ p.mission {
     font-weight: bold;
 }
 .block-container img {
-    max-width: 90% !important;
+    max-width: 100% !important;
     height: auto !important;
     margin-left: auto;
     margin-right: auto;
@@ -155,10 +154,12 @@ p.mission {
 """, unsafe_allow_html=True)
 
 # Page content in centered columns
-cols = st.columns([1, 3, 1])  # narrow padding columns on sides
+cols = st.columns([1, 5, 1])  # narrow padding columns on sides
 
 with cols[1]:
-    st.title("🌱 UMDAC DATAHACKS 2025 🌱")
+    st.markdown("""
+    <h1>🌱 UMDAC DATAHACKS 2025 🌱</h1>
+    """, unsafe_allow_html=True)
     st.subheader("Zero Hunger Challenge 🍽️🌍")
     image = Image.open("background.png")  
     st.image(image, use_container_width=True)
@@ -171,7 +172,7 @@ with cols[1]:
 
     st.markdown("""
     <div class="developers">
-    Developed by Year 1 Universiti Malaya Data Science Students :<br>
+    Developed by Year 1 Universiti Malaya Data Science Students:<br>
     Felicia Sia Xin Rou<br>
     Lau Hiap Meng<br>
     Kenny Ken Wan Jin
