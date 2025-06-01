@@ -415,7 +415,7 @@ st.markdown("""
     <div class="mission-title">Our Mission</div>
     <div class="mission-text">
         To empower communities worldwide by harnessing data science and artificial intelligence 
-        to combat hunger, achieve food security, and promote sustainable agriculture. 
+        to combat hunger, achieve food security and promote sustainable agriculture. 
         Together, we can create a world where no one goes to bed hungry.
     </div>
 </div>
