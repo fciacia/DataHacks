@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 from PIL import Image
+from model_loader import ModelLoader
 
 # Set page config
 st.set_page_config(
@@ -535,6 +536,11 @@ def result_page():
 
     st.title(f"Analysis Results: {st.session_state.selected_country}")
     
+    # Initialize model loader if not in session state
+    if 'model_loader' not in st.session_state:
+        st.session_state.model_loader = ModelLoader()
+        st.session_state.model_loader.load_models()
+    
     # Create tabs for different analyses
     tab1, tab2, tab3 = st.tabs([
         "Food Security Index", 
@@ -542,20 +548,77 @@ def result_page():
         "Crop Yield Prediction"
     ])
     
+    # Load data for the selected country
+    try:
+        df = pd.read_csv('hunger.csv')
+        country_data = df[df['Area'] == st.session_state.selected_country].iloc[0]
+    except Exception as e:
+        st.error(f"Error loading data: {str(e)}")
+        return
+    
     with tab1:
         st.header("Food Security Index Analysis")
-        # Add your FSI analysis here
-        st.info("Food Security Index analysis will be shown here")
+        
+        # Prepare data for FSI prediction
+        fsi_features = ['Production_tonnes_sum', 'Yield_kg_per_ha_mean', 'FSI_Availability']  # Add your actual feature names
+        fsi_data = country_data[fsi_features].values.reshape(1, -1)
+        
+        # Make prediction
+        fsi_prediction = st.session_state.model_loader.predict_fsi(fsi_data)
+        if fsi_prediction is not None:
+            st.success(f"Predicted Food Security Index: {fsi_prediction[0]:.2f}")
+            
+            # Add interpretation
+            st.markdown("""
+            ### Interpretation
+            The Food Security Index indicates the overall food security level:
+            - 0-3: Critical concern
+            - 4-6: Moderate concern
+            - 7-10: Good standing
+            """)
         
     with tab2:
         st.header("Hunger Risk Assessment")
-        # Add your hunger risk analysis here
-        st.info("Hunger Risk assessment will be shown here")
+        
+        # Prepare data for risk prediction
+        risk_features = ['FSI_Access', 'FSI_Utilization']  # Add your actual feature names
+        risk_data = country_data[risk_features].values.reshape(1, -1)
+        
+        # Make prediction
+        risk_prediction = st.session_state.model_loader.predict_risk(risk_data)
+        if risk_prediction is not None:
+            st.warning(f"Predicted Hunger Risk Level: {risk_prediction[0]}")
+            
+            # Add recommendations
+            st.markdown("""
+            ### Recommendations
+            Based on the risk assessment, consider:
+            - Improving food distribution networks
+            - Enhancing storage facilities
+            - Implementing early warning systems
+            """)
         
     with tab3:
         st.header("Crop Yield Prediction")
-        # Add your crop yield analysis here
-        st.info("Crop Yield predictions will be shown here")
+        
+        # Prepare data for yield prediction
+        yield_features = ['Temperature Change (°C)', 'FSI_Stability']  # Add your actual feature names
+        yield_data = country_data[yield_features].values.reshape(1, -1)
+        
+        # Make prediction
+        yield_prediction = st.session_state.model_loader.predict_yield(yield_data)
+        if yield_prediction is not None:
+            st.info(f"Predicted Crop Yield: {yield_prediction[0]:.2f} tonnes/ha")
+            
+            # Add analysis
+            st.markdown("""
+            ### Analysis
+            Factors affecting crop yield:
+            - Climate conditions
+            - Soil quality
+            - Agricultural practices
+            - Available technology
+            """)
 
 # Main app logic
 if st.session_state.page == 'main':
@@ -1199,4 +1262,3 @@ div[data-testid="column"]:nth-of-type(2) .stButton > button:hover {
 }
 </style>
 """, unsafe_allow_html=True)
-
