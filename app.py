@@ -279,47 +279,251 @@ def main_page():
     """, unsafe_allow_html=True)
 
 def analysis_page():
-    # Add a back button
+    # Enhanced Styling with Book Animations
+    st.markdown("""
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap');
+
+    /* Reset and base styles */
+    .stApp {
+        background: linear-gradient(135deg, #f6f4af 0%, #f0edb1 100%);
+    }
+
+    /* Main title styles */
+    .main-title {
+        color: #2e7d32;
+        font-size: 4rem;
+        font-weight: 700;
+        text-align: center;
+        margin: 2rem 0 1rem;
+        font-family: 'Playfair Display', serif;
+        text-shadow: 2px 2px 4px rgba(46, 125, 50, 0.2);
+        background: linear-gradient(45deg, #2e7d32, #388e3c);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .main-subtitle {
+        color: #1b5e20;
+        font-size: 1.8rem;
+        text-align: center;
+        margin-bottom: 2rem;
+        font-family: 'Playfair Display', serif;
+        line-height: 1.4;
+    }
+
+    /* Country selection styles */
+    .country-selection-container {
+        background: linear-gradient(to right bottom, #ffffff 0%, #f8f9fa 100%);
+        border-radius: 20px;
+        padding: 2rem;
+        margin: 2rem auto;
+        max-width: 800px;
+        box-shadow: 0 10px 30px rgba(46, 125, 50, 0.1);
+        text-align: center;
+        border: 2px solid rgba(46, 125, 50, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .country-selection-container:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(46, 125, 50, 0.15);
+    }
+
+    .selection-title {
+        color: #2e7d32;
+        font-family: 'Playfair Display', serif;
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+        font-weight: 600;
+    }
+
+    .selection-subtitle {
+        color: #1b5e20;
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        line-height: 1.6;
+    }
+
+    /* Book styles */
+    .book-container {
+        perspective: 1000px;
+        margin: 2rem auto;
+        width: 100%;
+        max-width: 1200px;
+        display: none;
+    }
+
+    .book-container.visible {
+        display: block;
+        animation: fadeIn 0.6s ease-out;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Content styles */
+    .chapter-title {
+        color: #2e7d32;
+        font-family: 'Playfair Display', serif;
+        font-size: 32px;
+        font-weight: 700;
+        margin-bottom: 25px;
+        position: relative;
+        padding-bottom: 15px;
+        text-shadow: 2px 2px 4px rgba(46, 125, 50, 0.1);
+    }
+
+    .quote-box {
+        background: linear-gradient(135deg, #f0f9f0 0%, #ffffff 100%);
+        border-left: 4px solid #2e7d32;
+        padding: 25px;
+        margin: 25px 0;
+        border-radius: 0 20px 20px 0;
+        color: #1b5e20;
+        font-family: 'Playfair Display', serif;
+        font-style: italic;
+        font-size: 20px;
+        line-height: 1.8;
+        box-shadow: 5px 5px 20px rgba(46, 125, 50, 0.1);
+    }
+
+    .info-box {
+        background: linear-gradient(135deg, rgba(46, 125, 50, 0.08) 0%, rgba(46, 125, 50, 0.03) 100%);
+        border-radius: 20px;
+        padding: 30px;
+        margin: 25px 0;
+        color: #1b5e20;
+    }
+
+    .fact-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        padding: 15px;
+        background: rgba(255, 255, 255, 0.7);
+        border-radius: 15px;
+        transition: all 0.3s ease;
+    }
+
+    .fact-item:hover {
+        transform: translateX(10px);
+        background: rgba(255, 255, 255, 0.9);
+        box-shadow: 0 5px 15px rgba(46, 125, 50, 0.1);
+    }
+
+    .fact-icon {
+        margin-right: 15px;
+        font-size: 24px;
+    }
+
+    .section-heading {
+        color: #2e7d32;
+        font-family: 'Playfair Display', serif;
+        font-size: 24px;
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
+
+    .fancy-text {
+        font-size: 18px;
+        line-height: 1.8;
+        color: #333;
+        margin-bottom: 20px;
+        padding-left: 20px;
+        border-left: 3px solid #2e7d32;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+    # Back button
     col1, col2, col3 = st.columns([1, 4, 1])
     with col1:
-        if st.button("← Back to Home"):
+        if st.button("← Back", use_container_width=True):
             st.session_state.page = 'main'
             st.rerun()
 
-    st.title("Country Analysis")
-    st.write("Select a country to analyze food security indicators.")
+    # Main title and subtitle
+    st.markdown('<h1 class="main-title">Begin Your Journey</h1>', unsafe_allow_html=True)
+    st.markdown('<div class="main-subtitle">Explore the path to understanding and combating hunger across the globe 🌍</div>', unsafe_allow_html=True)
 
-    # Show countries in a selectbox
+    # Country Selection First
+    st.markdown("""
+    <div class="country-selection-container">
+        <div class="selection-title">Choose Your Focus Country</div>
+        <div class="selection-subtitle">
+            Select a country to begin your exploration of its hunger challenges and potential solutions.
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Country selection with custom styling
     selected_country = st.selectbox(
-        "Select a country:",
+        "",  # Empty label since we have the title in HTML
         countries,
         key="country_select",
         index=0
     )
-        
+
     if selected_country:
-        st.success(f"You selected: {selected_country}")
-        
-        # Center the Next button
+        st.markdown(f"""
+        <div style="text-align: center; margin: 1rem 0; color: #2e7d32; font-size: 1.2rem;">
+            You selected: <strong>{selected_country}</strong>
+        </div>
+        """, unsafe_allow_html=True)
+
+        # Start Journey Button
         col1, col2, col3 = st.columns([1, 2, 1])
         with col2:
-            if st.button("Next →", type="primary", use_container_width=True):
+            start_journey = st.button("Start Your Journey →", type="primary", use_container_width=True)
+            
+            if start_journey:
                 st.session_state.selected_country = selected_country
+                if 'journey_started' not in st.session_state:
+                    st.session_state.journey_started = True
+                    st.session_state.current_page = 1
+                st.rerun()
+
+    # Show the book interface only after country selection
+    if 'journey_started' in st.session_state:
+        st.markdown(f"""
+        <div class="book-container visible">
+            <div class="book">
+                <div class="page active">
+                    <div class="chapter-title">📚 Understanding {selected_country}'s Challenge</div>
+                    <div class="fancy-text">
+                        Let's explore the unique challenges and opportunities in {selected_country}'s fight against hunger.
+                    </div>
+                    <div class="quote-box">
+                        "Every country faces unique challenges in achieving zero hunger. Understanding these specific 
+                        challenges is the first step toward creating effective solutions."
+                    </div>
+                    <div class="info-box">
+                        <div class="section-heading">Key Facts about {selected_country}</div>
+                        <div class="fact-item"><span class="fact-icon">📊</span>Population and Demographics</div>
+                        <div class="fact-item"><span class="fact-icon">🌾</span>Agricultural Overview</div>
+                        <div class="fact-item"><span class="fact-icon">🏦</span>Economic Context</div>
+                        <div class="fact-item"><span class="fact-icon">🌡️</span>Environmental Factors</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+        # Navigation buttons
+        col1, col2, col3 = st.columns([1, 2, 1])
+        with col2:
+            if st.button("Continue to Analysis →", type="primary", use_container_width=True):
                 st.session_state.page = 'result'
                 st.rerun()
-    
-    # Add some spacing
-    st.markdown("<br>" * 2, unsafe_allow_html=True)
-    
-    # Add background image at the bottom
-    try:
-        image = Image.open("background.png")
-        # Create columns to center the image
-        col1, col2, col3 = st.columns([1, 2, 1])
-        with col2:
-            st.image(image, use_container_width=True, caption="Zero Hunger Initiative")
-    except Exception as e:
-        st.error("⚠️ Error loading image. Please ensure 'background.png' is in the same directory as the app.")
 
 def result_page():
     # Add navigation buttons
@@ -509,8 +713,8 @@ div[data-testid="column"]:nth-of-type(2) .stButton > button:hover {
 .content-section {
     background: rgba(255, 255, 255, 0.95);
     border-radius: 20px;
-    padding: 2.5rem;
-    margin: 1.5rem 0;
+    padding: 1.5rem;
+    margin: 0 0 1.5rem 0;
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     backdrop-filter: blur(10px);
     transform: translateY(0);
@@ -832,7 +1036,7 @@ div[data-testid="column"]:nth-of-type(2) .stButton > button:hover {
     border-radius: 50px;
     font-size: 1.1rem;
     display: inline-block;
-    margin-top: 3rem !important;
+    margin-top: 0 !important;
     margin-bottom: 1rem;
 }
 
