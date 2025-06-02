@@ -22,11 +22,21 @@ your_project/
 
 ## Setup Instructions
 1. Clone this repository
-2. Install required packages:
+2. Install Python
+   ```bash
+   python3 -m venv env
+   ```
+   ```bash
+   env/bin/activate
+   ```
+   ```bash
+   pip install streamlit
+   ```
+4. Install required packages:
    ```bash
    pip install -r requirements.txt
    ```
-3. Run the Streamlit app:
+5. Run the Streamlit app:
    ```bash
    streamlit run app.py
    ```
