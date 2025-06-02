@@ -27,7 +27,7 @@ your_project/
    python3 -m venv env
    ```
    ```bash
-   env/bin/activate
+   source env/bin/activate
    ```
    ```bash
    pip install streamlit
